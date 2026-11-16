@@ -1,156 +1,296 @@
-Banking Transaction Fraud Detection Using Deep Learning
+# 1. Project Overview
 
-Project Overview
+Financial institutions process thousands of transactions every day across domestic and international payment channels. Identifying suspicious transactions quickly while minimizing false alerts is a major challenge for banking fraud monitoring teams.
+This project develops an AI-powered Banking Transaction Fraud Detection and Risk Monitoring solution using Machine Learning and Deep Learning.
+The solution combines transaction-level data analysis, engineered banking risk indicators, an Artificial Neural Network (ANN), and SHAP explainability to identify potentially fraudulent transactions.
+An interactive Streamlit dashboard provides transaction monitoring, fraud probability, risk categorization, and investigation support.
 
-This project develops a machine learning and deep learning-based banking transaction fraud detection system.
+**Business focus: Transform transaction data into actionable fraud risk insights to support faster and more informed investigation.**
 
-The solution uses an Artificial Neural Network (ANN) to predict potentially fraudulent transactions and a Streamlit dashboard to visualize transaction risk, fraud probability, and model performance.
 
-Business Objective
+# 2. Business Objectives & Study Areas
 
-To support banking fraud monitoring by identifying suspicious transactions, prioritizing investigation, and providing model explainability.
+1.Identify potentially fraudulent banking transactions.
 
-Technologies Used
+2.Analyze transaction behavior and suspicious activity patterns.
 
-Python
+3.Improve fraud detection through machine learning and deep learning.
 
-Pandas and NumPy
+4.Balance fraud detection recall with unnecessary false-positive alerts.
 
-Matplotlib and Seaborn
+5.Explain model predictions to support analyst investigation.
 
-Scikit-learn
+6.Build an interactive monitoring dashboard for operational visibility.
 
-TensorFlow / Keras
+Banking and analytical study areas
 
-SHAP
+Business area                            Analytical approach
 
-Streamlit
+Transaction Monitoring -------->>> Transaction behaviour and velocity analysis
 
-Plotly
+Payment Risk -------->>> Domestic and international transaction indicators
 
-Project Workflow
+Customer Behavior -------->>> Customer segment and account characteristics
 
-Dataset collection and exploratory data analysis
+Device Risk -------->>>  New device and trusted device indicators
 
-Data cleaning and preprocessing
+Financial Risk -------->>> Transaction amount and balance movement
 
-Feature engineering
+Fraud Investigation -------->>> Prediction probability and SHAP explanations.
 
-Logistic Regression baseline model
 
-Artificial Neural Network model
+# 3. Dataset & Technology Stack
 
-Model performance evaluation
-
-Fraud prediction threshold tuning
-
-Feature importance and SHAP explainability
-
-Interactive Streamlit dashboard
-
-Transaction-level fraud investigation
-
-Key Features
-
-Fraud probability prediction
-
-Legitimate vs potentially fraudulent transaction classification
-
-Transaction risk categorization
-
-Confusion matrix and performance visualizations
-
-Precision, Recall, F1 Score, ROC-AUC and PR-AUC
-
-Global feature importance
-
-SHAP-based individual transaction explanations
-
-CSV upload and prediction report download
-
-Dataset
-
-Dataset: 1M Fraud-Labeled Synthetic Bank Transactions
+1M Fraud-Labeled Synthetic Bank Transactions
 
 Source: Hugging Face Dataset
 
-A reproducible sample of 5,000 transactions was used for this project.
+Project sample: 5,000 transactions.
 
-Installation
+Target variable: fraud_label.
 
-Clone the repository:
+0 – Legitimate transaction.
+1 – Fraudulent transaction.
 
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd YOUR_PROJECT_FOLDER
+The dataset includes transaction amounts, account balances, transaction timing, payment channels, customer segments, device information, and risk-related indicators.
 
-Install dependencies:
+**Technology stack**
 
-python -m pip install -r requirements.txt
+Technology                               Purpose
 
-Run model training:
+Python                 ------->>   Core programming
 
-python train.py
+Pandas & NumPy         ------->>   Data manipulation
 
-Run the dashboard:
+Matplotlib & Seaborn   ------->>   Exploratory visualization
 
-python -m streamlit run app.py
+Scikit-learn           ------->>   Preprocessing and baseline ML
 
-Dashboard
+TensorFlow / Keras     ------->>   Deep Learning ANN
 
-The Streamlit dashboard provides:
+SHAP                   ------->>   Model Explainability
 
-Transaction analytics
+Streamlit              ------->>   Interactive dashboard
 
-Fraud probability distribution
+Plotly                 ------->>   Interactive charts
 
-Transaction-level investigation
+Joblib                 ------->>   Model artifact persistence
 
-Risk categorization
 
-SHAP feature explanations
+# 4. Methodology
 
-Prediction report downloads
+**Phase 1 – Exploratory Data Analysis (EDA)**
 
-Model Evaluation
+1.Dataset structure and data quality analysis.
 
-The model is evaluated using:
+2.Missing values and duplicate identification.
 
-Accuracy
+3.Fraud versus legitimate transaction distribution.
 
-Precision
+4.Transaction amount distribution.
 
-Recall
+5.Comparison of transaction behavior across fraud labels.
 
-F1 Score
+**Phase 2 – Feature Engineering**
 
-ROC-AUC
+Developed additional features to capture banking transaction risk:
 
-PR-AUC
+**Engineered feature                        Business interpretation**
 
-Confusion Matrix
+balance_change            --------->>  Change in account balance after transaction
 
-Actual evaluation results should be documented after final validation on the untouched test dataset.
+amount_balance_ratio      --------->>  Transaction amount relative to previous balance
 
-Project Limitations
+high_value_transaction    --------->>  Identifies transactions above a selected amount threshold
 
-The dataset contains synthetic banking transactions.
+risk_indicator            --------->>  Aggregated count of selected transaction risk flags
 
-Predictions are model-generated risk indicators, not confirmed fraud decisions.
+**Phase 3 – Data Preprocessing**
 
-The project is an educational prototype and is not approved for production banking decisions.
+1.Numerical feature imputation.
 
-Further validation, leakage checks, monitoring, and security controls are required before real-world deployment.
+2.Standard scaling.
 
-Future Enhancements
+3.Categorical feature imputation.
 
-Power BI integration
+4.One-hot encoding.
 
-Real-time fraud monitoring
+5.Stratified training, validation and test split.
 
-FastAPI model deployment
+6.Class imbalance handling through class weights during ANN training.
 
-Model drift monitoring
+**Phase 4 – Model Development**
 
-Advanced fraud detection algorithms
+Two classification approaches were implemented:
 
-Improved transaction-level explainability
+**Model 1: Logistic Regression**
+> Baseline classification model.
+
+> Class-weight balancing.
+
+> Probability-based prediction.
+
+> Performance comparison.
+
+**Model 2: Artificial Neural Network (ANN)**
+
+Architecture:
+
+> Input layer.
+
+> Dense layer – 128 neurons, ReLU.
+
+> Dropout – 30%.
+
+> Dense layer – 64 neurons, ReLU.
+
+> Dropout – 20%.
+
+> Dense layer – 32 neurons, ReLU.
+
+> Output layer – 1 neuron, Sigmoid.
+
+> Training configuration:
+
+> Optimizer: Adam.
+
+> Loss: Binary Cross-Entropy.
+
+> Early stopping.
+
+> Class weights for imbalanced classification.
+
+> Validation monitoring using PR-AUC.
+
+
+# 5. Model Evaluation & Prediction Analysis
+
+**Metric                     Business interpretation**
+
+Accuracy     ------>>    Overall classification correctness
+
+Precision    ------>>    Reliability of fraud alerts
+
+Recall       ------>>    Ability to identify actual fraud
+
+F1 Score     ------>>    Balance between precision and recall
+
+ROC-AUC      ------>>    Overall discrimination capability
+
+PR-AUC       ------>>    Fraud detection performance under class imbalance
+
+**Fraud threshold optimization**
+Instead of relying only on the default 0.50 probability threshold, a validation-based threshold selection process was implemented using the F1 score.
+This helps balance fraud detection and false-positive alerts.
+
+**Visual performance analysis**
+
+1.Fraud distribution analysis.
+
+2.Transaction amount comparison.
+
+3.ANN training accuracy and loss.
+
+4.Validation precision and recall.
+
+5.ROC-AUC and PR-AUC trends.
+
+6.Confusion matrix.
+
+7.Precision-recall threshold analysis.
+
+Model results: Actual test-set metric values should be added here after final validation. No performance values are assumed or fabricated.
+
+
+# 6. Explainable AI – SHAP Analysis
+
+Model explainability is important in banking because analysts need to understand which transaction characteristics influence a fraud prediction.
+
+SHAP was implemented to provide:
+
+> Global explainability
+> Overall feature importance.
+> Feature contribution analysis.
+> Identification of influential transaction characteristics.
+> Individual transaction explainability
+> Transaction-specific feature contributions.
+> Positive SHAP values that push predictions towards fraud.
+> Negative SHAP values that push predictions away from fraud.
+
+This provides additional analytical context for fraud investigation.
+
+
+# 7. Interactive Fraud Monitoring Dashboard
+
+The Streamlit dashboard transforms model outputs into an operational monitoring interface.
+
+Dashboard capabilities
+
+> Transaction analytics and KPI monitoring.
+
+> Fraud versus legitimate transaction distribution.
+
+> Fraud probability visualization.
+
+> Transaction amount analysis.
+
+> Low, Medium and High risk categorization.
+
+> Transaction-level investigation panel.
+
+> Individual transaction SHAP explanation.
+
+> CSV upload and prediction report download.
+
+> Dashboard : http://localhost:8501/
+
+<img width="1917" height="911" alt="image" src="https://github.com/user-attachments/assets/7a845dbc-4ff5-4a83-8503-56b7f6019128" />
+
+<img width="1621" height="873" alt="image" src="https://github.com/user-attachments/assets/f2ce9ec5-3b76-47be-b305-d4ea9b6b408a" />
+
+<img width="1602" height="603" alt="image" src="https://github.com/user-attachments/assets/9e43679d-e1a8-4107-8fe8-dcf582ca65e8" />
+
+
+
+
+
+
+# 8. Business Solution & Operational Value
+
+The proposed solution demonstrates how banking transaction data can be transformed into a fraud risk monitoring workflow.
+
+Business challenge                                 Proposed solution
+
+Large transaction volumes        ---------->    Automated transaction scoring
+
+Suspicious transaction patterns  ---------->    Engineered risk indicators
+
+Fraud detection prioritization   ---------->    Probability-based risk categorization
+
+Excessive false alerts           ---------->    Validation-based threshold tuning
+
+Limited prediction transparency  ---------->    SHAP Explainability
+
+Manual reporting                  ---------->   Interactive dashboard and CSV exports.
+
+
+# 9. Future Business Enhancements
+
+**Enhancement                                      Expected business value**
+
+Real-time transaction scoring   ---------> Faster suspicious transaction identification
+
+FastAPI deployment              ---------> Integration with banking applications
+
+Power BI integration            ---------> Management-level fraud reporting
+
+Advanced ensemble models        ---------> Model performance comparison
+
+Graph-based fraud analytics     ---------> Identification of connected suspicious accounts
+
+Model drift monitoring          ---------> Detection of changing fraud patterns
+
+Feedback-based retraining      ---------> Continuous model improvement
+
+Case management integration     ---------> Structured fraud investigation workflow.
+
